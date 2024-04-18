@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 100px;
+  flex-direction: column;
+
+  .no_todos_text {
+    font-size: 20px;
+    font-weight: bold;
+    gap: 20px;
+    margin-top: 15px;
+    background-color: #edeef6;
+    border-radius: 4px;
+    text-align: center;
+    border: 4px dashed gray;
+    opacity: 0.5;
+    padding: 20px;
+    width: 600px;
+  } 
+
+  .title {
+    color: #6e708a;
+    margin-bottom: 20px;
+  }
+}
