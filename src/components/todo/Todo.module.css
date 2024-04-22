@@ -1,0 +1,86 @@
+.completed_todo {
+  padding: 15px;
+  background-color: rgb(244, 244, 244);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: line-through 2px grey;
+
+  .text {
+    display: flex;
+    gap: 10px;
+
+    > p {
+      color: grey;
+      width: 100%;
+      font-size: 18px;
+      word-break: break-all;
+    }
+  }
+}
+
+.text {
+  display: flex;
+  gap: 10px;
+
+  > p {
+    width: 100%;
+    font-size: 18px;
+    word-break: break-all;
+  }
+}
+
+.todo {
+  padding: 15px;
+  background-color: white;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit_form {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+
+  .input {
+    padding: auto;
+    border: none !important;
+    width: 100%;
+    font-size: 17px;
+  }
+
+  .button {
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    width: 60px;
+    font-size: 17px;
+    background-color: #6370f0;
+    color: white;
+    font-weight: bold;
+  }
+
+  .button:active {
+    background-color: #4052ec;
+  }
+}
+
+.actions_container {
+  display: flex;
+  gap: 15px;
+
+  > .edit {
+    display: none;
+  }
+
+  > .delete {
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #edeef6;
+    width: 20px;
+    height: 20px;
+  }
+}

@@ -16,7 +16,24 @@
     opacity: 0.5;
     padding: 20px;
     width: 600px;
-  } 
+  }
+
+  .actions {
+    display: flex;
+    gap: 20px;
+
+    .buttons {
+      border-radius: 5px;
+      border: none;
+      padding: 15px;
+      background-color: #1d1ba2;
+      padding: 10px 20px;
+      font-size: 18px;
+      color: #ffffff;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+  }
 
   .title {
     color: #6e708a;

@@ -1,3 +1,1 @@
-export const generateId = () => {
-  Math.random().toString().replace('.', '')
-}
+export const generateId = () => Math.random().toString().replace('.', '')
