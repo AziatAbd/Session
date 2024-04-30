@@ -38,7 +38,7 @@ export default Form
 const Container = styled.div`
   width: 100%;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: ${(props) => (props.toggleForm ? '0' : '-200%')};
   left: 0;
   right: 0;
