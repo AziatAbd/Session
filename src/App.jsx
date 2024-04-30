@@ -8,7 +8,7 @@ function App() {
     {
       body: `Two bytes meet.  The first byte asks, “Are you ill?”
       The second byte replies, “No, just feeling a bit off.”`,
-      bg: 'bg-purple-400',
+      bg: 'purple',
       id: Math.random() * 10,
     },
   ])
