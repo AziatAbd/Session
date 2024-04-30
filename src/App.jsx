@@ -1,17 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Note from './components/Note'
 import Form from './components/Form'
 import styled from 'styled-components'
+import Spinner from './components/UI/Spinner'
 
 function App() {
-  const [notes, setNotes] = useState([
-    {
-      body: `Two bytes meet.  The first byte asks, “Are you ill?”
-      The second byte replies, “No, just feeling a bit off.”`,
-      bg: 'purple',
-      id: Math.random() * 10,
-    },
-  ])
+  const [notes, setNotes] = useState([])
   const [note, setNote] = useState({
     body: '',
     bg: '',
@@ -19,6 +13,23 @@ function App() {
   const [editNote, setEditNote] = useState()
   const [toggleForm, setToggleForm] = useState(false)
   const [toggleEditForm, setToggleEditForm] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
+  const fetchData = async () => {
+    setIsLoading(true)
+    try {
+      const response = await fetch('https://4626a6c590893bdc.mokky.dev/todo')
+      const data = await response.json()
+      setNotes(data)
+      setIsLoading(false)
+    } catch (error) {
+      console.error('Error:', error)
+    }
+  }
 
   const handleChange = (e) => {
     if (toggleEditForm) {
@@ -30,7 +41,7 @@ function App() {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (note.body) {
       const newNote = {
@@ -38,17 +49,36 @@ function App() {
         id: Math.random() * 10,
       }
 
-      setNotes([newNote, ...notes])
-      setNote({
-        body: '',
-      })
-      setToggleForm(!toggleForm)
+      try {
+        await fetch('https://4626a6c590893bdc.mokky.dev/todo', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newNote),
+        })
+
+        fetchData()
+        setNote({
+          body: '',
+        })
+        setToggleForm(!toggleForm)
+      } catch (error) {
+        console.error('Error:', error)
+      }
     }
   }
 
-  const handleDelete = (id) => {
-    const leftNotes = notes.filter((note) => note.id !== id)
-    setNotes(leftNotes)
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`https://4626a6c590893bdc.mokky.dev/todo/${id}`, {
+        method: 'DELETE',
+      })
+
+      fetchData()
+    } catch (error) {
+      console.error('Error:', error)
+    }
   }
 
   const handleEdit = (id) => {
@@ -57,17 +87,24 @@ function App() {
     setToggleEditForm(!toggleEditForm)
   }
 
-  const handleEditSubmit = (e) => {
+  const handleEditSubmit = async (e) => {
     e.preventDefault()
 
-    const updatedNotes = notes.map((note) =>
-      note.id === editNote.id ? editNote : note
-    )
+    try {
+      await fetch(`https://4626a6c590893bdc.mokky.dev/todo/${editNote.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editNote),
+      })
 
-    setNotes(updatedNotes)
-
-    setEditNote({})
-    setToggleEditForm(!toggleEditForm)
+      fetchData()
+      setEditNote({})
+      setToggleEditForm(!toggleEditForm)
+    } catch (error) {
+      console.error('Error:', error)
+    }
   }
 
   return (
@@ -77,7 +114,6 @@ function App() {
         <button onClick={() => setToggleForm(!toggleForm)}>Add Note</button>
       </header>
 
-      {/* add new note form */}
       <Form
         handleChange={handleChange}
         handleSubmit={handleSubmit}
@@ -86,7 +122,6 @@ function App() {
         toggleForm={toggleForm}
       />
 
-      {/* edit note form */}
       {toggleEditForm && (
         <>
           <Form
@@ -99,22 +134,26 @@ function App() {
         </>
       )}
 
-      <div>
-        {notes.length > 0 ? (
-          notes.map((singleNote, i) => {
-            return (
-              <Note
-                handleDelete={handleDelete}
-                handleEdit={handleEdit}
-                key={i}
-                note={singleNote}
-              />
-            )
-          })
-        ) : (
-          <p> No notes. Please add one </p>
-        )}
-      </div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className="noteContainer">
+          {notes.length > 0 ? (
+            notes.map((singleNote, i) => {
+              return (
+                <Note
+                  handleDelete={handleDelete}
+                  handleEdit={handleEdit}
+                  key={i}
+                  note={singleNote}
+                />
+              )
+            })
+          ) : (
+            <p> No notes. Please add one </p>
+          )}
+        </div>
+      )}
     </AppContainer>
   )
 }
@@ -161,5 +200,12 @@ const AppContainer = styled.div`
 
   p {
     color: #718096;
+  }
+  .noteContainer {
+    display: flex;
+    height: fit-content;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
   }
 `
