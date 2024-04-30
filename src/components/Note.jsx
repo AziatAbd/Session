@@ -1,22 +1,22 @@
 import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
 import styled from 'styled-components'
 
-const Note = () => {
+const Note = ({ note, handleDelete, handleEdit }) => {
   return (
-    <NoteContainer>
-      <NoteText>{`Some Text`}</NoteText>
+    <NoteContainer bg={note.bg}>
+      <NoteText>{note.body}</NoteText>
       <TweetLink
-        href={`https://twitter.com/intent/tweet?text="sometext`}
+        href={`https://twitter.com/intent/tweet?text="${note.body}`}
         target="_blank"
         rel="noreferrer"
       >
         Tweet
       </TweetLink>
       <div>
-        <EditButton onClick={() => {}}>
+        <EditButton onClick={() => handleEdit(note.id)}>
           <EditIcon />
         </EditButton>
-        <DeleteButton onClick={() => {}}>
+        <DeleteButton onClick={() => handleDelete(note.id)}>
           <DeleteIcon />
         </DeleteButton>
       </div>

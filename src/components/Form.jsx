@@ -1,11 +1,12 @@
 import { AiFillCloseSquare } from 'react-icons/ai'
 import styled from 'styled-components'
 
-function Form() {
+function Form({ toggleForm, setToggleForm, handleSubmit, handleChange, note }) {
   return (
-    <Container>
-      <FormContainer>
+    <Container toggleForm={toggleForm}>
+      <FormContainer onSubmit={handleSubmit}>
         <Label htmlFor="body">Write note:</Label>
+
         <TextArea
           required
           cols="25"
@@ -13,18 +14,20 @@ function Form() {
           name="body"
           placeholder="Note"
           rows="5"
+          value={note}
+          onChange={handleChange}
         />
 
         <Label htmlFor="bg">Choose a color:</Label>
-        <Select name="bg">
-          <option value="bg-yellow-300">Yellow</option>
-          <option value="bg-blue-300">Blue</option>
-          <option value="bg-red-300">Red</option>
-          <option value="bg-purple-400">Purple</option>
+        <Select name="bg" onChange={handleChange}>
+          <option value="yellow">Yellow</option>
+          <option value="blue">Blue</option>
+          <option value="red">Red</option>
+          <option value="purple">Purple</option>
         </Select>
         <Button type="submit">Save</Button>
 
-        <CloseIcon onClick={() => {}} />
+        <CloseIcon onClick={() => setToggleForm(!toggleForm)} />
       </FormContainer>
     </Container>
   )
